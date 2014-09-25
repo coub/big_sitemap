@@ -13,7 +13,7 @@ class BigSitemap
     :ping_google => true,
     :ping_yahoo  => false, # needs :yahoo_app_id
     :ping_bing   => false,
-    :ping_ask    => false, 
+    :ping_ask    => false,
     :ping_yandex => false
   }
 
@@ -295,3 +295,4 @@ class BigSitemapMerb < BigSitemap
     super(options, &block)
   end
 end
+

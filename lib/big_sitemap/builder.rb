@@ -8,6 +8,7 @@ class BigSitemap
     HEADER_ATTRIBUTES = {
       'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9',
       'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
+      'xmlns:video' => "http://www.google.com/schemas/sitemap-video/1.1",
       'xsi:schemaLocation' => "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     }
 
@@ -34,8 +35,23 @@ class BigSitemap
       _open_tag 'url'
 
       tag! 'loc', location
+
+      if video_opts = options[:video_options]
+        _open_tag 'video:video'
+
+        video_opts.each do |k,v|
+          if k == :tags
+            add_video_tags(v)
+          else
+            tag! "video:#{k}", v
+          end
+        end
+
+        _close_tag 'video:video'
+      end
+
       tag! 'lastmod', options[:last_modified].utc.strftime('%Y-%m-%dT%H:%M:%S+00:00') if options[:last_modified]
-      tag! 'changefreq', options[:change_frequency] || 'weekly'
+      tag! 'changefreq', options[:change_frequency] if options[:change_frequence]
       tag! 'priority', options[:priority] if options[:priority]
 
       _close_tag 'url'
@@ -113,6 +129,10 @@ class BigSitemap
       _newline
     end
 
+    def add_video_tags(tags)
+      tags.each {|t| tag! "video:tag", t}
+    end
+
     def _end_tag(name)
       target!.print "</#{name}>"
     end
@@ -159,3 +179,4 @@ class BigSitemap
 
 
 end
+
