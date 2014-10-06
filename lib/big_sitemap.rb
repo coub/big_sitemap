@@ -21,7 +21,7 @@ class BigSitemap
     def generate(options={}, &block)
       @sitemap = self.new(options)
 
-      @sitemap.first_id_of_last_sitemap = first_id_of_last_sitemap
+      @sitemap.first_id_of_last_sitemap = first_id_of_last_sitemap + 1
 
       instance_eval(&block)
 
